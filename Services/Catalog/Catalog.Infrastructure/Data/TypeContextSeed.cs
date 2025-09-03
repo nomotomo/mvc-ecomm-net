@@ -8,6 +8,9 @@ public class TypeContextSeed
 {
     public static void SeedData(IMongoCollection<ProductType> typeCollection)
     {
+        // check if there is any data in the collection
+        // if not, seed the data from the json file
+        // if there is data, do nothing
         var existType = typeCollection.Find(p => true).Any();
         string path = Path.Combine(Directory.GetCurrentDirectory(), "Data/SeedData/types.json");
         if (!existType)
