@@ -6,7 +6,7 @@ public interface IProductRepository
 {
     Task<IEnumerable<Product>> GetAllProducts();
     Task<Product> GetProductById(string id);
-    Task<IEnumerable<Product>> GetAllProductsByType(string type);
+    Task<IEnumerable<Product>> GetAllProductsByName(string name);
     Task<IEnumerable<Product>> GetAllProductByBrand(string brand);
     Task<Product> CreateProduct(Product product);
     Task<Product> UpdateProduct(Product product);
