@@ -1,3 +1,9 @@
+using System.Reflection;
+using AutoMapper;
+using Catalog.Core.Repositories;
+using Catalog.Infrastructure.Data;
+using Catalog.Infrastructure.Repositories;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -12,6 +18,22 @@ builder.Services.AddSwaggerGen(c =>
         Description = "Sample ASP.NET Core API with Swagger"
     });
 });
+
+// Register other services here, e.g., database context, repositories, etc.
+// Register AutoMapper 
+builder.Services.AddAutoMapper(
+    (Action<IMapperConfigurationExpression>)null,
+    typeof(Program)
+);
+// Register MediatR
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
+
+//Register Application Services
+builder.Services.AddScoped<ICatalogContext, CatalogContext>();
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IBrandRepository, ProductRepository>();
+builder.Services.AddScoped<ITypesRepository, ProductRepository>();
+
 
 var app = builder.Build();
 
