@@ -12,10 +12,12 @@ public static class BrandContextSeed
         // if not, seed the data from the json file
         // if there is data, do nothing
         var existBrand = brandCollection.Find(p => true).Any();
-        string path = Path.Combine(Directory.GetCurrentDirectory(), "Data/SeedData/brands.json");
+        string path = Path.Combine("Data", "SeedData", "brands.json");
         if (!existBrand)
         {
-            var brandData = File.ReadAllText(path);
+            
+            // var brandData = File.ReadAllText(path);
+            var brandData = File.ReadAllText("../Catalog.Infrastructure/Data/SeedData/brands.json");
             var brands = JsonSerializer.Deserialize<List<ProductBrand>>(brandData);
             if (brands != null)
             {

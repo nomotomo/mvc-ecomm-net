@@ -12,10 +12,11 @@ public class CatalogContextSeed
         // if not, seed the data from the json file
         // if there is data, do nothing
         var existProduct = productCollection.Find(p => true).Any();
-        string path = Path.Combine(Directory.GetCurrentDirectory(), "Data/SeedData/products.json");
+        string path = Path.Combine("Data", "SeedData", "products.json");
         if (!existProduct)
         {
-            var productData = File.ReadAllText(path);
+            // var productData = File.ReadAllText(path);
+            var productData = File.ReadAllText("../Catalog.Infrastructure/Data/SeedData/products.json");
             var products = JsonSerializer.Deserialize<List<Product>>(productData);
             if (products != null)
             {
