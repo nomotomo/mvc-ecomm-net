@@ -1,5 +1,5 @@
+using AutoMapper;
 using Catalog.Application.Commands;
-using Catalog.Application.Mappers;
 using Catalog.Application.Responses;
 using Catalog.Core.Entities;
 using Catalog.Core.Repositories;
@@ -10,9 +10,11 @@ namespace Catalog.Application.Handlers;
 public class UpdateProductCommandHandler: IRequestHandler<UpdateProductCommand, ProductResponse>
 {
     private readonly IProductRepository _productRepository;
-    public UpdateProductCommandHandler(IProductRepository productRepository)
+    private readonly IMapper _mapper;
+    public UpdateProductCommandHandler(IProductRepository productRepository, IMapper mapper)
     {
         _productRepository = productRepository;
+        _mapper = mapper;
     }
 
     public async Task<ProductResponse> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
@@ -35,7 +37,7 @@ public class UpdateProductCommandHandler: IRequestHandler<UpdateProductCommand, 
             throw new ApplicationException("Product update failed..");
         }
         
-        var productResponse = ProductMapper.Mapper.Map<ProductResponse>(productEntity);
+        var productResponse = _mapper.Map<ProductResponse>(productEntity);
         return productResponse;
     }
 }

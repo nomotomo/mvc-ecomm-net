@@ -12,10 +12,11 @@ public class TypeContextSeed
         // if not, seed the data from the json file
         // if there is data, do nothing
         var existType = typeCollection.Find(p => true).Any();
-        string path = Path.Combine(Directory.GetCurrentDirectory(), "Data/SeedData/types.json");
+        string path = Path.Combine("Data", "SeedData", "types.json");
         if (!existType)
         {
-            var typeData = File.ReadAllText(path);
+            // var typeData = File.ReadAllText(path);
+            var typeData = File.ReadAllText("../Catalog.Infrastructure/Data/SeedData/types.json");
             var types = JsonSerializer.Deserialize<List<ProductType>>(typeData);
             if (types != null)
             {
