@@ -11,9 +11,10 @@ public class GetBasketByUsernameHandler : IRequestHandler<GetBasketByUsernameQue
     private readonly IBasketRepository _basketRepository;
     private readonly IMapper _mapper;
 
-    public GetBasketByUsernameHandler(IBasketRepository basketRepository)
+    public GetBasketByUsernameHandler(IBasketRepository basketRepository, IMapper mapper)
     {
         _basketRepository = basketRepository;
+        _mapper = mapper;
     }
     public async Task<ShoppingCartResponse> Handle(GetBasketByUsernameQuery request, CancellationToken cancellationToken)
     {

@@ -12,9 +12,10 @@ public class CreateShoppingCartCommandHandler : IRequestHandler<CreateShoppingCa
     private readonly IBasketRepository _basketRepository;
     private readonly IMapper _mapper;
 
-    public CreateShoppingCartCommandHandler(IBasketRepository basketRepository)
+    public CreateShoppingCartCommandHandler(IBasketRepository basketRepository, IMapper mapper)
     {
         _basketRepository = basketRepository;
+        _mapper = mapper;
     }
     public async Task<ShoppingCartResponse> Handle(CreateShoppingCartCommand request, CancellationToken cancellationToken)
     {

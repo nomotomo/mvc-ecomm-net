@@ -10,7 +10,7 @@ public class DeleteBasketByUsernameHandler : IRequestHandler<DeleteBasketByUserN
 
     public DeleteBasketByUsernameHandler(IBasketRepository basketRepository)
     {
-        
+        _basketRepository = basketRepository;
     }
     public async Task Handle(DeleteBasketByUserNameCommand request, CancellationToken cancellationToken)
     {
