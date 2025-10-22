@@ -11,6 +11,12 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
+  
+  basketdb:
+    container_name: basketdb
+    restart: always
+    ports:
+      - "6379:6379"
 
   catalog.api:
     environment:
@@ -25,6 +31,24 @@ services:
       - catalogdb
     ports:
       - "8080:8080"
+
+  basket.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - AS  PNETCORE_URLS=http://+:8081
+      - "CacheSettings__ConnectionString=basketdb:6379"
+    ports:
+      - "8001:8081"
+  
+  portainer:
+    container_name: portainer
+    restart: always
+    ports:
+      - "9000:9000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainerdata:/data
+  
 
 volumes:
   mongodata:
