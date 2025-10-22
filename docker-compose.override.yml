@@ -35,7 +35,7 @@ services:
   basket.api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - AS  PNETCORE_URLS=http://+:8081
+      - ASPNETCORE_URLS=http://+:8081
       - "CacheSettings__ConnectionString=basketdb:6379"
     ports:
       - "8001:8081"
