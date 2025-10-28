@@ -16,8 +16,8 @@ public static class BrandContextSeed
         if (!existBrand)
         {
             
-            // var brandData = File.ReadAllText(path);
-            var brandData = File.ReadAllText("../Catalog.Infrastructure/Data/SeedData/brands.json");
+            var brandData = File.ReadAllText(path);
+            // var brandData = File.ReadAllText("../Catalog.Infrastructure/Data/SeedData/brands.json");
             var brands = JsonSerializer.Deserialize<List<ProductBrand>>(brandData);
             if (brands != null)
             {

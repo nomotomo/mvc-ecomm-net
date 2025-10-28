@@ -15,8 +15,8 @@ public class CatalogContextSeed
         string path = Path.Combine("Data", "SeedData", "products.json");
         if (!existProduct)
         {
-            // var productData = File.ReadAllText(path);
-            var productData = File.ReadAllText("../Catalog.Infrastructure/Data/SeedData/products.json");
+            var productData = File.ReadAllText(path);
+            // var productData = File.ReadAllText("../Catalog.Infrastructure/Data/SeedData/products.json");
             var products = JsonSerializer.Deserialize<List<Product>>(productData);
             if (products != null)
             {
