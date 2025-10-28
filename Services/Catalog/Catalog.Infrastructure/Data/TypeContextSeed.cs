@@ -15,8 +15,8 @@ public class TypeContextSeed
         string path = Path.Combine("Data", "SeedData", "types.json");
         if (!existType)
         {
-            // var typeData = File.ReadAllText(path);
-            var typeData = File.ReadAllText("../Catalog.Infrastructure/Data/SeedData/types.json");
+            var typeData = File.ReadAllText(path);
+            // var typeData = File.ReadAllText("../Catalog.Infrastructure/Data/SeedData/types.json");
             var types = JsonSerializer.Deserialize<List<ProductType>>(typeData);
             if (types != null)
             {
