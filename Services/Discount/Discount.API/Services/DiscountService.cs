@@ -1,6 +1,7 @@
 using Discount.Application.Commands;
 using Discount.Application.Queries;
 using Discount.Grpc.Protos;
+using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using MediatR;
 
@@ -28,6 +29,23 @@ public class DiscountService : DiscountProtoService.DiscountProtoServiceBase
         };
 
         return couponModel;
+    }
+
+    public override async Task GetAllDiscounts(Empty request, IServerStreamWriter<CouponModel> responseStream, ServerCallContext context) 
+    {
+        var query = new GetAllDiscountQuery();
+        var coupons = await _mediator.Send(query);
+
+        foreach (var coupon in coupons)
+        {
+            var couponModel = new CouponModel
+            {
+                ProductName = coupon.ProductName,
+                Description = coupon.Description,
+                Amount = coupon.Amount
+            };
+            await responseStream.WriteAsync(couponModel);
+        }
     }
 
     public override async Task<CouponModel> CreateDiscount(CreateDiscountRequest request, ServerCallContext context)

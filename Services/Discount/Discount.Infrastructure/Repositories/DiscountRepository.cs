@@ -20,6 +20,13 @@ public class DiscountRepository(IConfiguration configuration) : IDiscountReposit
         var coupon = await connection.QueryFirstOrDefaultAsync<Coupon>("SELECT * FROM Coupon WHERE ProductName = @ProductName", new { ProductName = productName });
         return coupon ?? new Coupon { ProductName = "No Discount", Amount = 0, Description = "No Discount Available" }; 
     }
+    
+    public async Task<IList<Coupon>> GetAllDiscounts()
+    {
+        await using var connection = GetPGConnection();
+        var coupons = await connection.QueryAsync<Coupon>("SELECT * FROM Coupon");
+        return coupons.ToList();
+    }
 
     public async Task<bool> CreateDiscount(Coupon coupon)
     {
