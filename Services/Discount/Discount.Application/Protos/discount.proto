@@ -1,9 +1,11 @@
 syntax = "proto3";
 
+import "google/protobuf/empty.proto";
 option csharp_namespace = "Discount.Grpc.Protos";
 
 service DiscountProtoService {
   rpc GetDiscount(GetDiscountRequest) returns (CouponModel);
+  rpc GetAllDiscounts(google.protobuf.Empty) returns (stream CouponModel);
   rpc CreateDiscount(CreateDiscountRequest) returns (CouponModel);
   rpc UpdateDiscount(UpdateDiscountRequest) returns (CouponModel);
   rpc DeleteDiscount(DeleteDiscountRequest) returns (DeleteDiscountResponse);
