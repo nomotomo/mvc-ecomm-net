@@ -34,7 +34,23 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-
+      
+  orderdb:
+    container_name: orderDb
+    platform: linux/amd64
+    environment:
+      SA_PASSWORD: "StrongPassw0rd!"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
+    volumes:
+      - orderdbdata:/var/opt/mssql
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P 'StrongPassw0rd!' -Q 'select 1'"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+  
   catalog.api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
@@ -47,7 +63,7 @@ services:
     depends_on:
       - catalogdb
     ports:
-      - "8080:8080"
+      - "8000:8080"
 
   basket.api:
     environment:
@@ -69,6 +85,18 @@ services:
       - discountdb
     ports:
       - "8002:8080"
+  
+  ordering.api:
+    container_name: ordering.api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "ConnectionStrings__OrderingConnectionString=Server=orderdb;Database=OrderDb;User Id=sa;Password=StrongPassw0rd!;TrustServerCertificate=True"
+    depends_on:
+      - orderdb
+    ports:
+      - "8003:8080"
+    command: >
+      /bin/sh -c "dotnet ef database update -p ../Ordering.Infrastructure -s ../Ordering.API && dotnet Ordering.API.dll"
   
   pgadmin:
     container_name: pgadmin
@@ -96,3 +124,4 @@ volumes:
   portainerdata:
   postgresdata:
   pgadmindata:
+  orderdbdata:
