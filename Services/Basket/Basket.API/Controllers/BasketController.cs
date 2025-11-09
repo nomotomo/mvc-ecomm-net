@@ -1,7 +1,11 @@
 using System.Net;
+using AutoMapper;
 using Basket.Application.Commands;
 using Basket.Application.Queries;
 using Basket.Application.Responses;
+using Basket.Core.Entities;
+using EventBus.Messages.Common;
+using MassTransit;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,10 +14,14 @@ namespace Basket.API.Controllers;
 public class BasketController : ApiController
 {
     private readonly IMediator _mediator;
+    private readonly IMapper _mapper;
+    private IPublishEndpoint _publishEndpoint;
 
-    public BasketController(IMediator mediator)
+    public BasketController(IMediator mediator, IMapper mapper, IPublishEndpoint publishEndpoint)
     {
         _mediator = mediator;
+        _mapper = mapper;
+        _publishEndpoint = publishEndpoint;
     }
 
     [HttpGet]
@@ -43,4 +51,25 @@ public class BasketController : ApiController
         await _mediator.Send(cmd);
         return Ok();
     }
+    
+    [Route("[action]")]
+    [HttpPost]
+    [ProducesResponseType((int)HttpStatusCode.Accepted)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    public async Task<ActionResult> CheckoutBasket([FromBody] BasketCheckout basketCheckout)
+    {
+        var query = new GetBasketByUsernameQuery(basketCheckout.Username);
+        var basket = await _mediator.Send(query);
+        if (basket == null) return BadRequest();
+        var eventMessage = _mapper.Map<BasketCheckoutEvent>(basketCheckout);
+        eventMessage.TotalPrice = basket.TotalPrice;
+        eventMessage.CorrelationId = Guid.NewGuid().ToString();;
+        // send checkout event to rabbitmq
+        await _publishEndpoint.Publish(eventMessage);
+        // remove the basket
+        var cmd = new DeleteBasketByUserNameCommand(basketCheckout.Username);
+        await _mediator.Send(cmd);
+        return Accepted();
+    }
+    
 }

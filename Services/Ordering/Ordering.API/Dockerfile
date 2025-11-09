@@ -11,6 +11,7 @@ COPY ["Services/Ordering/Ordering.API/Ordering.API.csproj", "Services/Ordering/O
 COPY ["Services/Ordering/Ordering.Application/Ordering.Application.csproj", "Services/Ordering/Ordering.Application/"]
 COPY ["Services/Ordering/Ordering.Core/Ordering.Core.csproj", "Services/Ordering/Ordering.Core/"]
 COPY ["Services/Ordering/Ordering.Infrastructure/Ordering.Infrastructure.csproj", "Services/Ordering/Ordering.Infrastructure/"]
+COPY ["Infrastructure/EventBus.Messages/EventBus.Messages.csproj", "Infrastructure/EventBus.Messages/"]
 # Clear NuGet locals inside container just before restore (optional but can help)
 RUN dotnet nuget locals all --clear
 RUN dotnet restore "Services/Ordering/Ordering.API/Ordering.API.csproj"
