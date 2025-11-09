@@ -19,3 +19,14 @@ cd Services/Ordering/Ordering.API
 **Add a new migration:**
 ```bash
 dotnet ef migrations add <MigrationName> -p ../Ordering.Infrastructure/ -s ../Ordering.API -c OrderContext
+```
+
+**Add a second migration:**
+```bash
+dotnet ef migrations add add-second-migration -p ../Ordering.Infrastructure/ -s ../Ordering.API -c OrderContext
+```
+
+**Update the database after migration:**
+```bash
+dotnet ef database update -p ../Ordering.Infrastructure/ -s ../Ordering.API -c OrderContext
+```

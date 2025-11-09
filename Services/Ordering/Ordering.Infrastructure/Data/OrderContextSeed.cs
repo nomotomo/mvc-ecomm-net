@@ -39,6 +39,7 @@ public class OrderContextSeed
                 PaymentMethod = 1,
                 LastModifiedBy = "Rahul",
                 LastModifiedOn = DateTime.UtcNow,
+                Status = OrderStatus.Shipped
             }
         };
     }

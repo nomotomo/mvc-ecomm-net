@@ -69,4 +69,9 @@ public class Order : EntityBase
     /// </summary>
     public string? Expiration { get; set; }
     
+    /// <summary>
+    ///  The current status of the order.
+    /// </summary>
+    public OrderStatus Status { get; set; } = OrderStatus.Pending;
+    
 }
