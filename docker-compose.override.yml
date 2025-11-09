@@ -50,6 +50,33 @@ services:
       interval: 10s
       timeout: 10s
       retries: 5
+
+  rabbitmq:
+    container_name: rabbitmq
+    restart: always
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+  
+  pgadmin:
+    container_name: pgadmin
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@eCommerce.net
+      - PGADMIN_DEFAULT_PASSWORD=Password@123
+    restart: always
+    ports:
+      - "5050:80"
+    volumes:
+      - pgadmindata:/root/.pgadmin
+
+  portainer:
+    container_name: portainer
+    restart: always
+    ports:
+      - "9000:9000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainerdata:/data
   
   catalog.api:
     environment:
@@ -71,6 +98,10 @@ services:
       - ASPNETCORE_URLS=http://+:8081
       - "CacheSettings__ConnectionString=basketdb:6379"
       - "GrpcSettings__DiscountUrl=http://discount.api:8080"
+      - "EventBusSettings__HostAddress=amqp://guest:guest@rabbitmq:5672"
+    depends_on:
+      - basketdb
+      - rabbitmq
     ports:
       - "8001:8081"
 
@@ -91,33 +122,13 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - "ConnectionStrings__OrderingConnectionString=Server=orderdb;Database=OrderDb;User Id=sa;Password=StrongPassw0rd!;TrustServerCertificate=True"
+      - "EventBusSettings__HostAddress=amqp://guest:guest@rabbitmq:5672"
     depends_on:
       - orderdb
     ports:
       - "8003:8080"
     command: >
       /bin/sh -c "dotnet ef database update -p ../Ordering.Infrastructure -s ../Ordering.API && dotnet Ordering.API.dll"
-  
-  pgadmin:
-    container_name: pgadmin
-    environment:
-      - PGADMIN_DEFAULT_EMAIL=admin@eCommerce.net
-      - PGADMIN_DEFAULT_PASSWORD=Password@123
-    restart: always
-    ports:
-      - "5050:80"
-    volumes:
-      - pgadmindata:/root/.pgadmin
-  
-  portainer:
-    container_name: portainer
-    restart: always
-    ports:
-      - "9000:9000"
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - portainerdata:/data
-  
 
 volumes:
   mongodata:
