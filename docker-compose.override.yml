@@ -50,6 +50,17 @@ services:
       interval: 10s
       timeout: 10s
       retries: 5
+  
+  identitydb:
+    container_name: identityDb
+    platform: linux/amd64
+    environment:
+      SA_PASSWORD: "Saurabh1612@"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1434:1433"
+    volumes:
+      - identitydbdata:/var/opt/mssql
 
   rabbitmq:
     container_name: rabbitmq
@@ -139,6 +150,18 @@ services:
       - "EventBusSettings__HostAddress=amqp://guest:guest@rabbitmq:5672"
     ports:
       - "8004:8080"
+  
+  identity.api:
+    container_name: identity.api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "ConnectionStrings__IdentityConnection=Server=identitydb;Database=IdentityDb;User Id=sa;Password=Saurabh1612@;TrustServerCertificate=True"
+    depends_on:
+      - identitydb
+    ports:
+      - "8005:8080"
+    command: >
+      /bin/sh -c "dotnet ef database update && dotnet Identity.API.dll"
 
 volumes:
   mongodata:
@@ -146,3 +169,4 @@ volumes:
   postgresdata:
   pgadmindata:
   orderdbdata:
+  identitydbdata:
