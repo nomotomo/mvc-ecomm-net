@@ -7,6 +7,8 @@
     image: postgres
   orderdb:
     image: mcr.microsoft.com/mssql/server:2022-latest
+  identitydb:
+    image: mcr.microsoft.com/mssql/server:2022-latest
   rabbitmq:
     image: rabbitmq:3-management-alpine
   
@@ -42,6 +44,12 @@
     build:
       context: .
       dockerfile: Services/Payment/Payment.API/Dockerfile
+  
+  identity.api:
+    image: ${DOCKER_REGISTRY-}identity.api
+    build:
+      context: .
+      dockerfile: Services/Identity/Identity.API/Dockerfile
       
   portainer:
     image: portainer/portainer-ce
