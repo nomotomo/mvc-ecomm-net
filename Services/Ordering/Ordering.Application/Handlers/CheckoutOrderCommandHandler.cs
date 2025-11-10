@@ -2,6 +2,7 @@ using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Ordering.Application.Commands;
+using Ordering.Application.Mappers;
 using Ordering.Core.Entities;
 using Ordering.Core.Repositories;
 
@@ -18,7 +19,7 @@ public class CheckoutOrderCommandHandler(
     {
         var orderEntity = mapper.Map<Order>(request);
         var newOrder = await orderRepository.AddAsync(orderEntity);
-        var outBoxMessage = mapper.Map<OutBoxMessage>(newOrder);
+        var outBoxMessage = OrderMapper.MapToOutBoxMessage(newOrder);
         await orderRepository.AddOutBoxMessageAsync(outBoxMessage);
         logger.LogInformation("Order {OrderId} is successfully created with outbox message.", newOrder.Id);
         return newOrder.Id;
