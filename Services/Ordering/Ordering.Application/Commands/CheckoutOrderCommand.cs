@@ -1,4 +1,5 @@
 using MediatR;
+using Ordering.Core.Entities;
 
 namespace Ordering.Application.Commands;
 
@@ -18,4 +19,5 @@ public class CheckoutOrderCommand : IRequest<Guid>
     public string? CardLast4 { get; set; }
     public string? Expiration { get; set; }
     public DateTime? LastModifiedDate { get; set; }
+    public OrderStatus? Status { get; set; }
 }

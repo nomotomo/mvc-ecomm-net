@@ -1,3 +1,5 @@
+using Ordering.Core.Entities;
+
 namespace Ordering.Application.Responses;
 
 public class OrderResponse
@@ -17,4 +19,5 @@ public class OrderResponse
     public string? CardLast4 { get; set; }
     public string? Expiration { get; set; }
     public DateTime? LastModifiedDate { get; set; }
+    public OrderStatus? Status { get; set; }
 }

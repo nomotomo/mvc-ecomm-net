@@ -27,5 +27,15 @@ namespace Ordering.Infrastructure.Repositories
 
             return orderList;
         }
+        
+        public async Task AddOutBoxMessageAsync(OutBoxMessage outBoxMessage)
+        {
+            if (outBoxMessage == null)
+            {
+                throw new ArgumentNullException(nameof(outBoxMessage));
+            }
+            await _orderContext.OutBoxMessages.AddAsync(outBoxMessage);
+            await _orderContext.SaveChangesAsync();
+        }
     }
 }

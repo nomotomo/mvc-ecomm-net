@@ -1,11 +1,8 @@
-using MediatR;
-using Ordering.Core.Entities;
+namespace EventBus.Messages.Common;
 
-namespace Ordering.Application.Commands;
-
-public class UpdateOrderCommand : IRequest<Guid>
+public class OrderCreatedEvent : BaseIntegrationEvent
 {
-    public Guid Id { get; set; }
+    public Guid OrderId { get; set; }
     public string? UserName { get; set; }
     public string? FirstName { get; set; }
     public string? LastName { get; set; }
@@ -19,6 +16,5 @@ public class UpdateOrderCommand : IRequest<Guid>
     public string? CardName { get; set; }
     public string? CardLast4 { get; set; }
     public string? Expiration { get; set; }
-    public DateTime? LastModifiedDate { get; set; }
-    public OrderStatus? Status { get; set; }
+    public string? status { get; set; }
 }

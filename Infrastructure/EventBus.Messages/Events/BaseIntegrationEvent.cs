@@ -1,7 +1,7 @@
 namespace EventBus.Messages.Common;
 
 public class BaseIntegrationEvent
-{
+{   
     public String CorrelationId { get; set; }
     public DateTime CreationDate { get; set; }
 
