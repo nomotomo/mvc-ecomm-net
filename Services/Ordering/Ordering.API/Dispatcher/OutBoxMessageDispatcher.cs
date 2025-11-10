@@ -28,9 +28,11 @@ public class OutBoxMessageDispatcher(IServiceProvider serviceProvider, ILogger<O
             {
                 try 
                 {
+                    logger.LogInformation("Fetched message content is: {content}", message.Content);
                     // Here you would typically publish the message to a message broker
                     logger.LogInformation("Processing OutBox Message Id: {MessageId}, Type: {MessageType}", message.Id, message.Type);
                     var orderCreateEvent = JsonConvert.DeserializeObject<OrderCreatedEvent>(message.Content);
+                    logger.LogInformation("Order id in the event is: {OrderId}", orderCreateEvent?.OrderId);
                     if (orderCreateEvent != null)
                     {
                         await publicEndpoints.Publish(orderCreateEvent, cancellationToken: stoppingToken);

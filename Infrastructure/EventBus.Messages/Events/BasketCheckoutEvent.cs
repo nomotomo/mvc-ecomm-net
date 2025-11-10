@@ -1,3 +1,5 @@
+using Ordering.Core.Entities;
+
 namespace EventBus.Messages.Common;
 
 public class BasketCheckoutEvent : BaseIntegrationEvent
@@ -16,4 +18,5 @@ public class BasketCheckoutEvent : BaseIntegrationEvent
     public string? CardLast4 { get; set; }
     public string? Expiration { get; set; }
     public DateTime? LastModifiedDate { get; set; }
+    public OrderStatus? Status { get; set; }
 }

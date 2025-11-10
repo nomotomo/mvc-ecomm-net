@@ -34,8 +34,6 @@ builder.Services.AddApplicationServices();
 
 // Infra Services
 builder.Services.AddInfrastructure(builder.Configuration);
-//consumer class
-builder.Services.AddScoped<BasketOrderingConsumer>();
 // Register outbox message dispatcher as a hosted service
 builder.Services.AddHostedService<OutBoxMessageDispatcher>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
