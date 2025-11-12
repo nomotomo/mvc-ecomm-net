@@ -1,3 +1,4 @@
+using ApiGateway.Middleware;
 using Microsoft.IdentityModel.Tokens;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
@@ -38,11 +39,11 @@ builder.Services.AddOcelot();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-
+builder.Services.AddHttpContextAccessor();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-
+app.UseMiddleware<CorrelationIdMiddleware>();
 app.UseAuthentication();
 app.UseAuthorization();
 

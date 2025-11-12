@@ -20,6 +20,8 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\..\ApiGateway\ApiGateway\ApiGateway.csproj" />
+      <ProjectReference Include="..\..\..\Infrastructure\Common.Logging\Common.Logging.csproj" />
       <ProjectReference Include="..\..\..\Infrastructure\EventBus.Messages\EventBus.Messages.csproj" />
     </ItemGroup>
 

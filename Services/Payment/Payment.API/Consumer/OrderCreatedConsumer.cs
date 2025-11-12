@@ -9,7 +9,8 @@ public class OrderCreatedConsumer(IPublishEndpoint publishEndpoint, ILogger<Orde
     public async Task Consume(ConsumeContext<OrderCreatedEvent> context)
     {
         var message = context.Message;
-        logger.LogInformation("Processing payment for order Id: {OrderId}", message.CorrelationId);
+        logger.LogInformation("Processing payment for order Id: {OrderId}" +
+                              " and correlationId: {CorrelationId}", message.OrderId, message.CorrelationId);
         // Simulate payment processing logic here
         await Task.Delay(2000);
         if (message.TotalPrice > 0)

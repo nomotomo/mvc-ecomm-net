@@ -7,6 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\..\Infrastructure\Common.Logging\Common.Logging.csproj" />
       <ProjectReference Include="..\..\..\Infrastructure\EventBus.Messages\EventBus.Messages.csproj" />
       <ProjectReference Include="..\Basket.Core\Basket.Core.csproj" />
     </ItemGroup>
@@ -15,7 +16,7 @@
       <PackageReference Include="AutoMapper" Version="15.0.1" />
       <PackageReference Include="Grpc.AspNetCore" Version="2.57.0" />
       <PackageReference Include="MediatR" Version="13.0.0" />
-      <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.0" />
+      <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.0" />
     </ItemGroup>
     
     <ItemGroup>

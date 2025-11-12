@@ -17,4 +17,9 @@
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2"/>
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\ApiGateway\ApiGateway\ApiGateway.csproj" />
+      <ProjectReference Include="..\..\..\Infrastructure\Common.Logging\Common.Logging.csproj" />
+    </ItemGroup>
+
 </Project>

@@ -20,4 +20,5 @@ public class CheckoutOrderCommand : IRequest<Guid>
     public string? Expiration { get; set; }
     public DateTime? LastModifiedDate { get; set; }
     public OrderStatus? Status { get; set; }
+    public Guid CorrelationId { get; set; }
 }

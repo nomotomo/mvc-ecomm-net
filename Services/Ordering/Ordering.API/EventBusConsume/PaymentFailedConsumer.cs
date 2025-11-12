@@ -10,7 +10,7 @@ public class PaymentFailedConsumer(IOrderRepository orderRepository, ILogger<Pay
     public async Task Consume(ConsumeContext<PaymentFailedEvent> context)
     {
         using var logScope = logger.BeginScope("Consuming PaymentFailedEvent: {eventId}", context.Message.CorrelationId);
-        logger.LogInformation("PaymentFailedEvent received: {OrderId}", context.Message.OrderId);
+        logger.LogInformation("PaymentFailedEvent received: {OrderId} and correlationId: {CorrelationId}", context.Message.OrderId, context.Message.CorrelationId);
 
         var orderToUpdate = await orderRepository.GetByIdAsync(context.Message.OrderId);
         if (orderToUpdate == null)

@@ -6,11 +6,15 @@ using Catalog.Infrastructure.Repositories;
 // using Common.Logging;
 // using Serilog;
 using System.Reflection;
+using ApiGateway.Middleware;
 using AutoMapper;
 using Catalog.Application.Mappers;
+using Common.Logging;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
-
+// add serilog package later
+builder.Host.UseSerilog(Logging.ConfigureLogging);
 // Add services to the container.
 //Add Cors
 builder.Services.AddCors(options =>
@@ -56,7 +60,10 @@ builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IBrandRepository, ProductRepository>();
 builder.Services.AddScoped<ITypesRepository, ProductRepository>();
 
+builder.Services.AddHttpContextAccessor();
 var app = builder.Build();
+app.UseMiddleware<CorrelationIdMiddleware>();
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

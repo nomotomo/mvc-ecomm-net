@@ -18,6 +18,8 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\..\ApiGateway\ApiGateway\ApiGateway.csproj" />
+      <ProjectReference Include="..\..\..\Infrastructure\Common.Logging\Common.Logging.csproj" />
       <ProjectReference Include="..\Discount.Application\Discount.Application.csproj" />
       <ProjectReference Include="..\Discount.Infrastructure\Discount.Infrastructure.csproj" />
     </ItemGroup>

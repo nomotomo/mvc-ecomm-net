@@ -3,6 +3,7 @@ using MediatR;
 using Microsoft.Extensions.Logging;
 using Ordering.Application.Commands;
 using Ordering.Application.Exceptions;
+using Ordering.Application.Mappers;
 using Ordering.Core.Entities;
 using Ordering.Core.Repositories;
 
@@ -21,9 +22,13 @@ public class UpdateOrderCommandHandler(
         {
             throw new OrderNotFoundException(nameof(Order), request.Id);
         }
-        mapper.Map(request, order, typeof(UpdateOrderCommand), typeof(Order));
+        order.MapUpdate(request);
+        
         await orderRepository.UpdateAsync(order);
-        logger.LogInformation("Order {OrderId} is successfully updated.", order.Id);
+        // optional change: if status change needs to be known by other services, create a different OutBoxMessage type
+        var outBoxMessage = OrderMapper.MapToOutBoxMessageForUpdate(order, request.CorrelationId);
+        await orderRepository.AddOutBoxMessageAsync(outBoxMessage);
+        logger.LogInformation("Order {OrderId} is successfully updated. with correlation id: {request.CorrelationId}", order.Id, request.CorrelationId);
         return order.Id;
     }
 }

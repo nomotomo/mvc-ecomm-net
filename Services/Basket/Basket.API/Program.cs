@@ -1,17 +1,21 @@
 using System.Reflection;
+using ApiGateway.Middleware;
 using Asp.Versioning;
 using Basket.Application.GrpcService;
 using Basket.Application.Handlers;
 using Basket.Application.Mappers;
 using Basket.Core.Repositories;
 using Basket.Infrastructure.Repositories;
+using Common.Logging;
 using Discount.Grpc.Protos;
 using MassTransit;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
+// serilog configuration
+builder.Host.UseSerilog(Logging.ConfigureLogging);
 builder.Services.AddControllers();
 // Add API Versioning
 builder.Services.AddApiVersioning(options =>
@@ -58,9 +62,9 @@ builder.Services.AddMassTransit(config =>
     });
 });
 
-
+builder.Services.AddHttpContextAccessor();
 var app = builder.Build();
-
+app.UseMiddleware<CorrelationIdMiddleware>();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

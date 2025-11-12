@@ -1,4 +1,6 @@
+using ApiGateway.Middleware;
 using Asp.Versioning;
+using Common.Logging;
 using EventBus.Messages.Common;
 using MassTransit;
 using Ordering.API.Dispatcher;
@@ -7,10 +9,13 @@ using Ordering.API.Extensions;
 using Ordering.Application.Extensions;
 using Ordering.Infrastructure.Data;
 using Ordering.Infrastructure.Extensions;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+// add serilog package later
+builder.Host.UseSerilog(Logging.ConfigureLogging);
 //Add Cors
 builder.Services.AddCors(options =>
 {
@@ -58,7 +63,10 @@ builder.Services.AddMassTransit(config =>
     });
 });
 
+builder.Services.AddHttpContextAccessor();
 var app = builder.Build();
+app.UseMiddleware<CorrelationIdMiddleware>();
+
 
 //Apply db migration
 app.MigrateDatabase<OrderContext>((context, services) =>
