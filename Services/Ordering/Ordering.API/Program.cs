@@ -1,4 +1,3 @@
-using ApiGateway.Middleware;
 using Asp.Versioning;
 using Common.Logging;
 using EventBus.Messages.Common;
@@ -44,13 +43,7 @@ builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddHostedService<OutBoxMessageDispatcher>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(c => { 
-    c.SwaggerDoc("v1", new OpenApiInfo 
-    { 
-        Title = "Ordering.API", 
-        Version = "v1" 
-    }); 
-});
+builder.Services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "Ordering.API", Version = "v1" }); });
 
 builder.Services.AddHttpContextAccessor();
 // MassTransit-RabbitMQ Configuration
@@ -73,7 +66,7 @@ builder.Services.AddMassTransit(config =>
 
 builder.Services.AddHttpContextAccessor();
 var app = builder.Build();
-app.UseMiddleware<CorrelationIdMiddleware>();
+app.UseMiddleware<CorrelationalIdMiddleware>();
 
 
 //Apply db migration

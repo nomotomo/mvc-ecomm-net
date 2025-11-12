@@ -12,7 +12,7 @@
         <PackageReference Include="MassTransit" Version="8.5.5" />
         <PackageReference Include="MassTransit.AspNetCore" Version="7.3.1" />
         <PackageReference Include="MassTransit.RabbitMQ" Version="8.5.5" />
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="10.0.0"/>
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2"/>
     </ItemGroup>
 
     <ItemGroup>
@@ -22,7 +22,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\..\ApiGateway\ApiGateway\ApiGateway.csproj" />
       <ProjectReference Include="..\..\..\Infrastructure\Common.Logging\Common.Logging.csproj" />
       <ProjectReference Include="..\Basket.Application\Basket.Application.csproj" />
       <ProjectReference Include="..\Basket.Infrastructure\Basket.Infrastructure.csproj" />

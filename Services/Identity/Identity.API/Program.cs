@@ -1,4 +1,3 @@
-using ApiGateway.Middleware;
 using Common.Logging;
 using Identity.API.Data;
 using Identity.API.Models;
@@ -49,7 +48,7 @@ builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddHttpContextAccessor();
 var app = builder.Build();
-app.UseMiddleware<CorrelationIdMiddleware>();
+app.UseMiddleware<CorrelationalIdMiddleware>();
 
 
 // Configure the HTTP request pipeline.

@@ -1,5 +1,4 @@
 using System.Reflection;
-using ApiGateway.Middleware;
 using Asp.Versioning;
 using Basket.Application.GrpcService;
 using Basket.Application.Handlers;
@@ -9,7 +8,6 @@ using Basket.Infrastructure.Repositories;
 using Common.Logging;
 using Discount.Grpc.Protos;
 using MassTransit;
-using Microsoft.OpenApi;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -28,14 +26,7 @@ builder.Services.AddApiVersioning(options =>
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(c => { 
-    c.SwaggerDoc("v1", new OpenApiInfo 
-    { 
-        Title = "Basket.API", 
-        Version = "v1" 
-    }); 
-});
-
+builder.Services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "Basket.API", Version = "v1" }); });
 
 //Register AutoMapper
 // builder.Services.AddAutoMapper(cfg => { }, typeof(Program));
@@ -72,7 +63,7 @@ builder.Services.AddMassTransit(config =>
 
 builder.Services.AddHttpContextAccessor();
 var app = builder.Build();
-app.UseMiddleware<CorrelationIdMiddleware>();
+app.UseMiddleware<CorrelationalIdMiddleware>();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

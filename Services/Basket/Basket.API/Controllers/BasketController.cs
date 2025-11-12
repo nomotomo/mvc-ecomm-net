@@ -16,12 +16,15 @@ public class BasketController : ApiController
     private readonly IMediator _mediator;
     private readonly IMapper _mapper;
     private IPublishEndpoint _publishEndpoint;
+    private readonly IHttpContextAccessor _httpContextAccessor;
 
-    public BasketController(IMediator mediator, IMapper mapper, IPublishEndpoint publishEndpoint)
+    public BasketController(IMediator mediator, IMapper mapper,
+        IPublishEndpoint publishEndpoint, IHttpContextAccessor httpContextAccessor)
     {
         _mediator = mediator;
         _mapper = mapper;
         _publishEndpoint = publishEndpoint;
+        _httpContextAccessor = httpContextAccessor;
     }
 
     [HttpGet]
@@ -63,7 +66,15 @@ public class BasketController : ApiController
         if (basket == null) return BadRequest();
         var eventMessage = _mapper.Map<BasketCheckoutEvent>(basketCheckout);
         eventMessage.TotalPrice = basket.TotalPrice;
-        eventMessage.CorrelationId = Guid.NewGuid().ToString();;
+        var correlationId = _httpContextAccessor.HttpContext?.Request.Headers["x-correlation-id"].FirstOrDefault();
+        if (!string.IsNullOrEmpty(correlationId))
+        {
+            eventMessage.CorrelationId = correlationId;
+        }
+        else
+        {
+            eventMessage.CorrelationId = Guid.NewGuid().ToString();
+        }
         // send checkout event to rabbitmq
         await _publishEndpoint.Publish(eventMessage);
         // remove the basket

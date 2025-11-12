@@ -1,5 +1,4 @@
 using System.Reflection;
-using ApiGateway.Middleware;
 using Common.Logging;
 using Discount.API.Services;
 using Discount.Application.Handlers;
@@ -32,9 +31,7 @@ builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(assemblies
 builder.Services.AddScoped<IDiscountRepository, DiscountRepository>();
 builder.Services.AddGrpc();
 
-builder.Services.AddHttpContextAccessor();
 var app = builder.Build();
-app.UseMiddleware<CorrelationIdMiddleware>();
 
 // Migrate database
 app.MigrateDatabase<Program>();

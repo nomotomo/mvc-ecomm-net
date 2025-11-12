@@ -1,14 +1,16 @@
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using Serilog.Context;
 
-namespace ApiGateway.Middleware;
+namespace Common.Logging;
 
-public class CorrelationIdMiddleware
-{   
+public class CorrelationalIdMiddleware
+{
     private const string CorrelationIdHeaderName = "x-correlation-id";
     private readonly RequestDelegate _next;
-    private readonly ILogger<CorrelationIdMiddleware> _logger;
+    private readonly ILogger<CorrelationalIdMiddleware> _logger;
 
-    public CorrelationIdMiddleware(RequestDelegate next, ILogger<CorrelationIdMiddleware> logger)
+    public CorrelationalIdMiddleware(RequestDelegate next, ILogger<CorrelationalIdMiddleware> logger)
     {
         _next = next;
         _logger = logger;

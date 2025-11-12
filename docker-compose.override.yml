@@ -163,7 +163,7 @@ services:
     ports:
       - "8005:8080"
     command: >
-      /bin/sh -c "dotnet ef database update && dotnet Identity.API.dll"
+      /bin/sh -c "dotnet ef database update --context AppIdentityDbContext && dotnet Identity.API.dll"
 
   ocelot.apigateway:
     container_name: ocelot.apigateway

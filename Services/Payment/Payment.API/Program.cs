@@ -1,4 +1,3 @@
-using ApiGateway.Middleware;
 using Common.Logging;
 using EventBus.Messages.Common;
 using MassTransit;
@@ -26,9 +25,10 @@ builder.Services.AddMassTransit(config =>
         });
     });
 });
+
 builder.Services.AddHttpContextAccessor();
 var app = builder.Build();
-app.UseMiddleware<CorrelationIdMiddleware>();
+app.UseMiddleware<CorrelationalIdMiddleware>();
 
 
 // Configure the HTTP request pipeline.
