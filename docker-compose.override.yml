@@ -108,7 +108,7 @@ services:
     container_name: basket.api
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://+:8081
+      - ASPNETCORE_URLS=http://+:8080
       - "CacheSettings__ConnectionString=basketdb:6379"
       - "GrpcSettings__DiscountUrl=http://discount.api:8080"
       - "EventBusSettings__HostAddress=amqp://guest:guest@rabbitmq:5672"
@@ -116,7 +116,7 @@ services:
       - basketdb
       - rabbitmq
     ports:
-      - "8001:8081"
+      - "8001:8080"
 
   discount.api:
     container_name: discount.api
@@ -162,6 +162,23 @@ services:
       - "8005:8080"
     command: >
       /bin/sh -c "dotnet ef database update && dotnet Identity.API.dll"
+
+  ocelot.apigateway:
+    container_name: ocelot.apigateway
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "Jwt__SecretKey=super_secure_secret_key_1234567890!@#"
+      - "Jwt__Issuer=ecommerce.identity"
+      - "Jwt__Audience=ecommerce.clients"
+    depends_on:
+      - identity.api
+      - catalog.api
+      - basket.api
+      - ordering.api
+      - payment.api
+      - discount.api
+    ports:
+      - "8010:8080"
 
 volumes:
   mongodata:
