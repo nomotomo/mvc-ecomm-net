@@ -11,7 +11,8 @@
     image: mcr.microsoft.com/mssql/server:2022-latest
   rabbitmq:
     image: rabbitmq:3-management-alpine
-  
+  portainer:
+    image: portainer/portainer-ce
   pgadmin:
     image: dpage/pgadmin4
     
@@ -50,9 +51,12 @@
     build:
       context: .
       dockerfile: Services/Identity/Identity.API/Dockerfile
-      
-  portainer:
-    image: portainer/portainer-ce
+
+  ocelot.apigateway:
+    image: ${DOCKER_REGISTRY-}ocelot.apigateway
+    build:
+      context: .
+      dockerfile: ApiGateway/ApiGateway/Dockerfile
 
 volumes:
   mongodata: 
