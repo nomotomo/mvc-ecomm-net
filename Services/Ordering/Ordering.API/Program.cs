@@ -3,6 +3,7 @@ using Asp.Versioning;
 using Common.Logging;
 using EventBus.Messages.Common;
 using MassTransit;
+using Microsoft.OpenApi;
 using Ordering.API.Dispatcher;
 using Ordering.API.EventBusConsume;
 using Ordering.API.Extensions;
@@ -43,7 +44,14 @@ builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddHostedService<OutBoxMessageDispatcher>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "Ordering.API", Version = "v1" }); });
+builder.Services.AddSwaggerGen(c => { 
+    c.SwaggerDoc("v1", new OpenApiInfo 
+    { 
+        Title = "Ordering.API", 
+        Version = "v1" 
+    }); 
+});
+
 builder.Services.AddHttpContextAccessor();
 // MassTransit-RabbitMQ Configuration
 builder.Services.AddMassTransit(config => 

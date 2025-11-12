@@ -10,6 +10,7 @@ using ApiGateway.Middleware;
 using AutoMapper;
 using Catalog.Application.Mappers;
 using Common.Logging;
+using Microsoft.OpenApi;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -40,7 +41,14 @@ builder.Services.AddApiVersioning(options =>
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "Catalog.API", Version = "v1" }); });
+builder.Services.AddSwaggerGen(c => { 
+    c.SwaggerDoc("v1", new OpenApiInfo 
+    { 
+        Title = "Catalog.API", 
+        Version = "v1" 
+    }); 
+});
+
 
 //Register AutoMapper
 // builder.Services.AddAutoMapper(cfg => { }, typeof(Program));
