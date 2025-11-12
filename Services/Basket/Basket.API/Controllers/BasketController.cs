@@ -66,15 +66,10 @@ public class BasketController : ApiController
         if (basket == null) return BadRequest();
         var eventMessage = _mapper.Map<BasketCheckoutEvent>(basketCheckout);
         eventMessage.TotalPrice = basket.TotalPrice;
-        var correlationId = _httpContextAccessor.HttpContext?.Request.Headers["x-correlation-id"].FirstOrDefault();
-        if (!string.IsNullOrEmpty(correlationId))
-        {
-            eventMessage.CorrelationId = correlationId;
-        }
-        else
-        {
-            eventMessage.CorrelationId = Guid.NewGuid().ToString();
-        }
+        var httpContext = _httpContextAccessor.HttpContext;
+        eventMessage.CorrelationId = httpContext?.Items["CorrelationId"] as string
+                            ?? httpContext?.Request.Headers["x-correlation-id"].FirstOrDefault()
+                            ?? Guid.NewGuid().ToString();
         // send checkout event to rabbitmq
         await _publishEndpoint.Publish(eventMessage);
         // remove the basket
