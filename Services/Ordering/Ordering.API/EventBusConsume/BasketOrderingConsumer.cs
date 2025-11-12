@@ -12,7 +12,7 @@ public class BasketOrderingConsumer(IMediator mediator, IMapper mapper, ILogger<
     public async Task Consume(ConsumeContext<BasketCheckoutEvent> context)
     {
         using var logScope = logger.BeginScope("Consuming BasketCheckoutEvent: {eventId}", context.Message.CorrelationId);
-        logger.LogInformation("BasketCheckoutEvent received: {eventId}", context.Message.CorrelationId);
+        logger.LogInformation("BasketCheckoutEvent received: {CorrelationId}", context.Message.CorrelationId);
         var command = mapper.Map<CheckoutOrderCommand>(context.Message);
         var result = await mediator.Send(command);
         logger.LogInformation("BasketCheckoutEvent received: {result}", result);

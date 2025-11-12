@@ -19,9 +19,10 @@ public class CheckoutOrderCommandHandler(
     {
         var orderEntity = mapper.Map<Order>(request);
         var newOrder = await orderRepository.AddAsync(orderEntity);
-        var outBoxMessage = OrderMapper.MapToOutBoxMessage(newOrder);
+        var outBoxMessage = OrderMapper.MapToOutBoxMessage(newOrder, request.CorrelationId);
         await orderRepository.AddOutBoxMessageAsync(outBoxMessage);
-        logger.LogInformation("Order {OrderId} is successfully created with outbox message.", newOrder.Id);
+        logger.LogInformation("Order {OrderId} is successfully created with outbox message, " +
+                              "with correlation Id: {request.CorrelationId}", newOrder.Id, request.CorrelationId);
         return newOrder.Id;
     }
 }

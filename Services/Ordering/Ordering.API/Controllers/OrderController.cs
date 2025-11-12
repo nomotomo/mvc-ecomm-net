@@ -8,6 +8,7 @@ namespace Ordering.API.Controllers;
 
 public class OrderController : ApiController
 {
+    private const string CorrelationIdHeader = "x-correlation-id";
     private readonly IMediator _mediator;
     private readonly ILogger<OrderController> _logger;
 
@@ -32,7 +33,11 @@ public class OrderController : ApiController
     [ProducesResponseType(typeof(Guid), StatusCodes.Status200OK)]
     public async Task<ActionResult<Guid>> CheckoutOrder([FromBody] CheckoutOrderCommand command)
     {
+        //extract correlation id x-correlation-id
+        var correlationId = HttpContext.Request.Headers[CorrelationIdHeader].FirstOrDefault() ?? Guid.NewGuid().ToString();
+        command.CorrelationId = Guid.Parse(correlationId);
         var result = await _mediator.Send(command);
+        _logger.LogInformation("Order created with Id: {result} with correlationId {correlationId}", result, correlationId);
         return Ok(result);
     }
 
@@ -41,7 +46,11 @@ public class OrderController : ApiController
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<Guid>> UpdateOrder([FromBody] UpdateOrderCommand command)
     {
+        //extract correlation id x-correlation-id
+        var correlationId = HttpContext.Request.Headers[CorrelationIdHeader].FirstOrDefault() ?? Guid.NewGuid().ToString();
+        command.CorrelationId = Guid.Parse(correlationId);
         var result = await _mediator.Send(command);
+        _logger.LogInformation("Order updated with Id: {result} with correlationId {correlationId}", result, correlationId);
         return Ok(result);
     }
 
@@ -50,8 +59,11 @@ public class OrderController : ApiController
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> DeleteOrder(Guid id)
     {
-        var cmd = new DeleteOrderCommand { Id = id };
-        await _mediator.Send(cmd);
+        //extract correlation id x-correlation-id
+        var correlationId = HttpContext.Request.Headers[CorrelationIdHeader].FirstOrDefault() ?? Guid.NewGuid().ToString();
+        var cmd = new DeleteOrderCommand { Id = id , CorrelationId = Guid.Parse(correlationId) };
+        var result = await _mediator.Send(cmd);
+        _logger.LogInformation("Order deleted with Id: {result} with correlationId {correlationId}", result, correlationId);
         return NoContent();
     }
 }

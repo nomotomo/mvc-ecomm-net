@@ -1,12 +1,16 @@
+using Common.Logging;
 using Identity.API.Data;
 using Identity.API.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+// add serilog package later
+builder.Host.UseSerilog(Logging.ConfigureLogging);
 // Add EF + Identity services here (omitted for brevity)
 builder.Services.AddDbContext<AppIdentityDbContext>(options =>
 {
@@ -42,7 +46,10 @@ builder.Services.AddControllers();
 builder.Services.AddSwaggerGen();
 builder.Services.AddEndpointsApiExplorer();
 
+builder.Services.AddHttpContextAccessor();
 var app = builder.Build();
+app.UseMiddleware<CorrelationalIdMiddleware>();
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

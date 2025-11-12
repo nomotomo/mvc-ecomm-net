@@ -98,7 +98,7 @@ services:
       - "DatabaseSettings__CollectionName=Products"
       - "DatabaseSettings__BrandsCollection=Brands"
       - "DatabaseSettings__TypesCollection=Types"
-      - "ElasticConfiguration__Uri=http://elasticsearch:9200"
+      - "elasticSearchSettings__Uri=http://elasticsearch:9200"
     depends_on:
       - catalogdb
     ports:
@@ -111,6 +111,7 @@ services:
       - ASPNETCORE_URLS=http://+:8080
       - "CacheSettings__ConnectionString=basketdb:6379"
       - "GrpcSettings__DiscountUrl=http://discount.api:8080"
+      - "elasticSearchSettings__Uri=http://elasticsearch:9200"
       - "EventBusSettings__HostAddress=amqp://guest:guest@rabbitmq:5672"
     depends_on:
       - basketdb
@@ -124,7 +125,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:8080
       - "DatabaseSettings__ConnectionString=Server=discountdb;Port=5432;Database=DiscountDb;User Id=admin;Password=Password@1;"
-      - "ElasticConfiguration__Uri=http://elasticsearch:9200"
+      - "elasticSearchSettings__Uri=http://elasticsearch:9200"
     depends_on:
       - discountdb
     ports:
@@ -136,6 +137,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - "ConnectionStrings__OrderingConnectionString=Server=orderdb;Database=OrderDb;User Id=sa;Password=StrongPassw0rd!;TrustServerCertificate=True"
       - "EventBusSettings__HostAddress=amqp://guest:guest@rabbitmq:5672"
+      - "elasticSearchSettings__Uri=http://elasticsearch:9200"
     depends_on:
       - orderdb
     ports:
@@ -161,7 +163,7 @@ services:
     ports:
       - "8005:8080"
     command: >
-      /bin/sh -c "dotnet ef database update && dotnet Identity.API.dll"
+      /bin/sh -c "dotnet ef database update --context AppIdentityDbContext && dotnet Identity.API.dll"
 
   ocelot.apigateway:
     container_name: ocelot.apigateway
@@ -179,11 +181,23 @@ services:
       - discount.api
     ports:
       - "8010:8080"
-
-volumes:
-  mongodata:
-  portainerdata:
-  postgresdata:
-  pgadmindata:
-  orderdbdata:
-  identitydbdata:
+  
+  elasticsearch:
+    container_name: elasticsearch
+    environment:
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+    ports:
+      - "9200:9200"
+    volumes:
+      - elasticsearchdata:/usr/share/elasticsearch/data
+  
+  kibana:
+    container_name: kibana
+    environment:
+      - ELASTICSEARCH_URL=http://elasticsearch:9200
+    depends_on:
+      - elasticsearch
+    ports:
+      - "5601:5601"

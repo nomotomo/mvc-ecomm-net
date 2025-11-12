@@ -1,11 +1,14 @@
+using Common.Logging;
 using EventBus.Messages.Common;
 using MassTransit;
 using Payment.API.Consumer;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
+// add serilog package later
+builder.Host.UseSerilog(Logging.ConfigureLogging);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -22,7 +25,11 @@ builder.Services.AddMassTransit(config =>
         });
     });
 });
+
+builder.Services.AddHttpContextAccessor();
 var app = builder.Build();
+app.UseMiddleware<CorrelationalIdMiddleware>();
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

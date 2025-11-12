@@ -6,11 +6,14 @@ using Catalog.Infrastructure.Repositories;
 // using Common.Logging;
 // using Serilog;
 using System.Reflection;
-using AutoMapper;
 using Catalog.Application.Mappers;
+using Common.Logging;
+using Microsoft.OpenApi;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
-
+// add serilog package later
+builder.Host.UseSerilog(Logging.ConfigureLogging);
 // Add services to the container.
 //Add Cors
 builder.Services.AddCors(options =>
@@ -38,6 +41,7 @@ builder.Services.AddApiVersioning(options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "Catalog.API", Version = "v1" }); });
 
+
 //Register AutoMapper
 // builder.Services.AddAutoMapper(cfg => { }, typeof(Program));
 builder.Services.AddAutoMapper(cfg => {},typeof(ProductMappingProfiles).Assembly);
@@ -56,7 +60,10 @@ builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IBrandRepository, ProductRepository>();
 builder.Services.AddScoped<ITypesRepository, ProductRepository>();
 
+builder.Services.AddHttpContextAccessor();
 var app = builder.Build();
+app.UseMiddleware<CorrelationalIdMiddleware>();
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

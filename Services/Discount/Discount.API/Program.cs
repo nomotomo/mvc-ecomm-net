@@ -1,15 +1,18 @@
 using System.Reflection;
+using Common.Logging;
 using Discount.API.Services;
 using Discount.Application.Handlers;
 using Discount.Application.Mappers;
 using Discount.Core.Repositories;
 using Discount.Infrastructure.Extensions;
 using Discount.Infrastructure.Repositories;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
+// add serilog package later
+builder.Host.UseSerilog(Logging.ConfigureLogging);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
