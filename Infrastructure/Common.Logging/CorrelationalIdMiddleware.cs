@@ -18,7 +18,7 @@ public class CorrelationalIdMiddleware
     
     public async Task InvokeAsync(HttpContext context)
     {
-        // Generate if not presetn
+        // Generate if not present
         if (!context.Request.Headers.TryGetValue(CorrelationIdHeaderName, out var correlationId))
         {
             correlationId = Guid.NewGuid().ToString();

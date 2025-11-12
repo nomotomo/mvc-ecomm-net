@@ -57,7 +57,7 @@ public static class OrderMapper
         return new OutBoxMessage
         {
             CorrelationId = correlationId.ToString(),
-            Type = OutBoxMessageTypes.OrderCreated,
+            Type = OutBoxMessageTypes.OrderUpdated,
             Content = JsonConvert.SerializeObject(new
             {
                 OrderId = orderToUpdate.Id,

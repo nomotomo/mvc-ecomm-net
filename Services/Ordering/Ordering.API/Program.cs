@@ -45,7 +45,6 @@ builder.Services.AddHostedService<OutBoxMessageDispatcher>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "Ordering.API", Version = "v1" }); });
 
-builder.Services.AddHttpContextAccessor();
 // MassTransit-RabbitMQ Configuration
 builder.Services.AddMassTransit(config => 
 {
