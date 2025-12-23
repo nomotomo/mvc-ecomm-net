@@ -34,6 +34,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Basket.Infrastructure", "Services\Basket\Basket.Infrastructure\Basket.Infrastructure.csproj", "{EAC5C7F2-DA55-441D-B479-277D130D602A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Discount", "Discount", "{9BE25D7E-D333-4E63-B134-CFADD5722631}"
+	ProjectSection(SolutionItems) = preProject
+		Services\Discount\README.md = Services\Discount\README.md
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Discount.API", "Services\Discount\Discount.API\Discount.API.csproj", "{084A2788-1180-4568-838D-CCB654C5E500}"
 EndProject
@@ -44,6 +47,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Discount.Infrastructure", "Services\Discount\Discount.Infrastructure\Discount.Infrastructure.csproj", "{A59B930C-B633-4051-A764-61C7E9FEB054}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Ordering", "Ordering", "{13307079-50DC-42A9-BB49-8CE716B1575F}"
+	ProjectSection(SolutionItems) = preProject
+		Services\Ordering\README.md = Services\Ordering\README.md
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ordering.API", "Services\Ordering\Ordering.API\Ordering.API.csproj", "{E62117DD-F844-4A5D-B2C0-61D5107A9722}"
 EndProject

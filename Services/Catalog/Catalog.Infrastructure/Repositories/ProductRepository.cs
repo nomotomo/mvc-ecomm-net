@@ -39,7 +39,6 @@ public class ProductRepository : IProductRepository, IBrandRepository, ITypesRep
             (int)totalCount,
             data
         );
-        return new Pagination<Product>(specParams.PageIndex, specParams.PageSize, totalCount, data);
     }
     async Task<Product> IProductRepository.GetProductById(string Id) 
     {
