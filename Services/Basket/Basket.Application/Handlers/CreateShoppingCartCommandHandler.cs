@@ -25,7 +25,7 @@ public class CreateShoppingCartCommandHandler : IRequestHandler<CreateShoppingCa
     public async Task<ShoppingCartResponse> Handle(CreateShoppingCartCommand request, CancellationToken cancellationToken)
     {
         // List all discounts available
-        
+
         var coupons = await _discountGrpcService.GetAllDiscounts();
         logger.LogInformation("Getting all available coupons:");
         foreach (var coupon in coupons)
