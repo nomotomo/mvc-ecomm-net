@@ -1,0 +1,32 @@
+@if (product(); as p) {
+  <nav class="breadcrumb">
+    <a [routerLink]="['/']">Home</a>
+    <span class="separator">></span>
+    <a [routerLink]="['/store']">Store</a>
+    <span class="separator">></span>
+    <span>{{p.name}}</span>
+  </nav>
+}
+
+@if (product(); as p) {
+  <div class="details">
+    <div class="details-image">
+      <img [src]="'assets/' + p.imageFile" alt="{{p.name}}"/>
+    </div>
+    <div class="details-info">
+      <h2>{{p.name}}</h2>
+      <p class="brand">{{p.brands.name}} • {{p.types.name}}</p>
+      <p class="price">₹ {{p.price}}</p>
+      <p class="desc">{{p.description}}</p>
+
+      <div class="actions">
+        <button class="btn-cart" (click)="addToCart(p)">🛒 Add to Cart</button>
+        <button class="btn-buy">⚡ Buy Now</button>
+      </div>
+    </div>
+  </div>
+}
+
+<div class="back-button">
+  <a [routerLink]="['/store']" class="btn-back">⬅ Back to Store</a>
+</div>
