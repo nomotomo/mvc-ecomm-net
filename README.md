@@ -17,7 +17,7 @@ A cloud-native, microservices-based e-commerce platform built with **.NET 8**, *
 9. [Observable Systems](#observable-systems)
 10. [Local Development Setup](#local-development-setup)
 11. [Deployment](#deployment)
-12. [Interview Q&A](#interview-qa)
+12. [Q&A](#qa)
 
 ---
 
@@ -1336,7 +1336,7 @@ kubectl set image deployment/catalog-api catalog-api=myregistry/catalog-api:v2
 
 ---
 
-## Interview Q&A
+## Q&A
 
 ### Architecture & Microservices
 
