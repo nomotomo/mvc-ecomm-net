@@ -3,7 +3,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { BasketService } from '../../store/services/basket.service';
-// import { AuthService } from '../../auth/auth.service';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-navbar',
@@ -16,7 +16,7 @@ import { BasketService } from '../../store/services/basket.service';
 export class Navbar implements OnInit {
   searchText = '';
   private basketService = inject(BasketService);
-  // private authService = inject(AuthService);
+  private authService = inject(AuthService);
   private router = inject(Router);
 
   ngOnInit(): void {
@@ -37,17 +37,15 @@ export class Navbar implements OnInit {
   }
 
   get loggedIn(): boolean {
-    return false;
-    // return this.authService.isLoggedIn();
+    return this.authService.isLoggedIn();
   }
 
   get userName(): string | null {
-    return null;
-    // return this.authService.getUserName();
+    return this.authService.getUserName();
   }
 
   logout(){
-    // this.authService.logout();
-    this.router.navigate(['/auth/login']);
+    this.authService.logout();
+    this.router.navigate(['/auth/login']).then(r => {});
   }
 }
