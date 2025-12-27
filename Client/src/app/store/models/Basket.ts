@@ -9,4 +9,5 @@ export interface BasketItem {
 export interface Basket {
   userName: string;
   items: BasketItem[];
+  totalPrice: number
 }

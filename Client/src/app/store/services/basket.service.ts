@@ -29,9 +29,9 @@ export class BasketService {
   initializeBasket(userName: string){
     this.getBasket(userName).subscribe({
       next: (res) => this.setBasket(res),
-      error: (err) =>{
+      error: (err) => {
         console.error('Error loading basket', err);
-        this.setBasket({ userName, items: [] }); // fallback empty
+        this.setBasket({ userName, items: [], totalPrice: 0}); // fallback empty
       }
     });
   }

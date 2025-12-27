@@ -103,6 +103,7 @@ export class Store implements OnInit {
       const basket: Basket = {
         userName: 'saurabh.mishra',
         items,
+        totalPrice: items.reduce((sum, i) => sum + i.price * i.quantity, 0),
       };
 
       this.basketService.updateBasket(basket).subscribe({

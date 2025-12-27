@@ -53,7 +53,7 @@ export class BasketComponent implements OnInit {
     this.basket.set({
       userName: 'saurabh.mishra',
       items: updatedItems,
-      // totalPrice: updatedItems.reduce((sum, i) => sum + i.price * i.quantity, 0)
+      totalPrice: updatedItems.reduce((sum, i) => sum + i.price * i.quantity, 0)
     });
     this.updateBasket();
   }
@@ -61,7 +61,7 @@ export class BasketComponent implements OnInit {
   private updateBasket() {
     const updated = this.basket();
     if (updated) {
-      // updated.totalPrice = updated.items.reduce((sum, i) => sum + i.price * i.quantity, 0);
+      updated.totalPrice = updated.items.reduce((sum, i) => sum + i.price * i.quantity, 0);
 
       this.basketService.updateBasket(updated).subscribe({
         next: (res) => this.basketService.setBasket(res),
