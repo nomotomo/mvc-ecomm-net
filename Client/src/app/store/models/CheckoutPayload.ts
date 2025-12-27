@@ -1,5 +1,5 @@
 export interface CheckoutPayload {
-  userName: string;
+  username: string;
   totalPrice: number;
   firstName: string;
   lastName: string;
@@ -8,9 +8,9 @@ export interface CheckoutPayload {
   country: string;
   state: string;
   zipCode: string;
-  cardName: string;
+  cardHolderName: string;
   cardNumber: string;
-  expiration: string;
-  cvv: string;
-  paymentMethod: number;
+  cardExpiration: string;
+  cardSecurityNumber: string;
+  cardTypeId: number;
 }
