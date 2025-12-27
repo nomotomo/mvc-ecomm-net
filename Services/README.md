@@ -48,13 +48,13 @@ Domain architecture in modern enterprise applications—especially those influen
 ***
 
 ### Common Layer Comparison Table
-
-| Layer           | Responsibility                           | Example Components        |
-|-----------------|------------------------------------------|--------------------------|
-| Domain/Core     | **Business rules, logic, entities** [5][4]      | Entities, Value Objects, Aggregates [5] |
-| Application     | **Business workflows, orchestration** [2][4] | Services, Use Cases        |
-| Infrastructure  | **External services, persistence** [2][4]      | Repositories, Data Access  |
-| API/Presentation| **User/system interface** [4][1]              | Controllers, Views, APIs   |
+_________________________________________________________________________________________________________________
+|      Layer      |                 Responsibility					|             Example Components			|
+|-----------------|-------------------------------------------------|-------------------------------------------|
+| Domain/Core     | **Business rules, logic, entities** [5][4]      | Entities, Value Objects, Aggregates [5]	|
+| Application     | **Business workflows, orchestration** [2][4]	| Services, Use Cases						|
+| Infrastructure  | **External services, persistence** [2][4]		| Repositories, Data Access					|
+| API/Presentation| **User/system interface** [4][1]				| Controllers, Views, APIs					|
 
 ***
 
