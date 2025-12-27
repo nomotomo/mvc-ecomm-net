@@ -36,11 +36,24 @@ builder.Services.AddAuthentication("Bearer")
 builder.Services.AddAuthorization();
 builder.Services.AddOcelot();
 builder.Services.AddControllers();
+// Read allowed origins from appSettings.json
+var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>();
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowSpecificOrigins", policy =>
+    {
+        policy.WithOrigins(allowedOrigins)
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddHttpContextAccessor();
 var app = builder.Build();
-
+// allow specific origins for CORS
+app.UseCors("AllowSpecificOrigins");
 // Configure the HTTP request pipeline.
 app.UseAuthentication();
 app.UseAuthorization();
