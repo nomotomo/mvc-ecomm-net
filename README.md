@@ -1487,5 +1487,5 @@ This project is open source under the MIT License. See LICENSE file for details.
 
 Built as a demonstration of modern microservices architecture patterns and best practices for cloud-native applications.
 
-**Author:** [Saurabh Mishra/Nomotomo]  
+**Author:** Saurabh Mishra/Nomotomo
 **Last Updated:** December 2025
