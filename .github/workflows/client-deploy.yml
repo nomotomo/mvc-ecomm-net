@@ -41,7 +41,7 @@ jobs:
   deploy-client:
     needs: test-build
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' && github.ref == 'refs/heads/client'  # Deploy only on push to client
+    # if: github.event_name == 'push' && github.ref == 'refs/heads/client'  # Deploy only on push to client
     
     steps:
       - uses: actions/checkout@v4
