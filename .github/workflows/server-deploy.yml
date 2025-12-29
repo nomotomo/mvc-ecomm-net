@@ -112,13 +112,13 @@ jobs:
             EOF
             
             # Pull all images from ECR
-            docker-compose -f docker-compose.prod.yaml -f docker-compose.override.yaml --env-file .env pull
+            docker-compose -f docker-compose.prod.yaml -f docker-compose.override.yml --env-file .env pull
             
             # Stop and remove old containers
-            docker-compose -f docker-compose.prod.yaml -f docker-compose.override.yaml down --remove-orphans || true
+            docker-compose -f docker-compose.prod.yaml -f docker-compose.override.yml down --remove-orphans || true
             
             # Start all services with health checks
-            docker-compose -f docker-compose.prod.yaml -f docker-compose.override.yaml --env-file .env up -d
+            docker-compose -f docker-compose.prod.yaml -f docker-compose.override.yml --env-file .env up -d
             
             # Verify services are running
             echo "✅ Services deployed successfully:"
