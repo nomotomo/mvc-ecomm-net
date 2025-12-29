@@ -1,0 +1,71 @@
+name: Client CI/CD Pipeline
+
+on:
+  push:
+    branches: [main]  # ONLY feature branch pushes
+  pull_request:
+    branches: [main]  # PRs targeting feature branch
+
+env:
+  CLIENT_DIR: Client
+  NODE_VERSION: '20'
+
+jobs:
+  test-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: ${{ env.CLIENT_DIR }}/package-lock.json
+      
+      - name: Install dependencies
+        run: cd ${{ env.CLIENT_DIR }} && npm ci
+      
+      - name: Lint
+        run: cd ${{ env.CLIENT_DIR }} && npm run lint
+      
+      - name: Test
+        run: cd ${{ env.CLIENT_DIR }} && npm run test:ci -- --watchAll=false --code-coverage
+      
+      - name: Build Angular
+        run: |
+          cd ${{ env.CLIENT_DIR }}
+          npm run build -- --configuration production --base-href=/
+
+  deploy-staging:
+    needs: test-build
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/client'  # Deploy only on push to client
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+      
+      - name: Build Angular
+        run: |
+          cd ${{ env.CLIENT_DIR }}
+          npm ci
+          npm run build -- --configuration production --base-href=/
+      
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+      
+      - name: Deploy to S3 Staging
+        run: aws s3 sync ${{ env.CLIENT_DIR }}/dist/Client/browser/ s3://polluxkart-client/ --delete
+      
+      - name: Invalidate CloudFront Staging
+        run: aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_STAGING_ID }} --paths "/*"
