@@ -51,6 +51,7 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
+          cache-dependency-path: ${{ env.CLIENT_DIR }}/package-lock.json  # ✅ Correct path
       
       - name: Build Angular
         run: |
