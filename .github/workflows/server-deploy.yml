@@ -96,12 +96,10 @@ jobs:
           envs: AWS_REGION,AWS_ACCOUNT_ID,ECR_REGISTRY
           script: |
             set -e
-            
-            # ECR Login
+
             aws ecr get-login-password --region $AWS_REGION | \
               docker login --username AWS --password-stdin $ECR_REGISTRY
             
-            # Navigate to repo
             cd /home/ec2-user/mvc-ecomm-net
             
             # Pull latest code
@@ -114,17 +112,17 @@ jobs:
             EOF
             
             # Pull all images from ECR
-            docker compose -f docker-compose.prod.yaml --env-file .env pull
+            docker-compose -f docker-compose.prod.yaml --env-file .env pull
             
             # Stop and remove old containers
-            docker compose -f docker-compose.prod.yaml down --remove-orphans || true
+            docker-compose -f docker-compose.prod.yaml down --remove-orphans || true
             
             # Start all services with health checks
-            docker compose -f docker-compose.prod.yaml --env-file .env up -d --wait
+            docker-compose -f docker-compose.prod.yaml --env-file .env up -d
             
             # Verify services are running
             echo "✅ Services deployed successfully:"
-            docker compose -f docker-compose.prod.yaml ps
+            docker-compose -f docker-compose.prod.yaml ps
             
-            # Optional: Check service health
-            docker compose -f docker-compose.prod.yaml ps --format "table {{.Service}}\t{{.Status}}"
+            # Check service health
+            docker-compose -f docker-compose.prod.yaml ps --format "table {{.Service}}\t{{.Status}}"
