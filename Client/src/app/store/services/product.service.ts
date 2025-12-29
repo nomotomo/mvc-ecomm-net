@@ -5,14 +5,16 @@ import { CatalogResponse } from '../models/CatalogResponse';
 import { Brand } from '../models/Brand';
 import { Type } from '../models/Type';
 import { Product } from '../models/Product';
+import {ApiService} from '../../core/services/api.service';
 
 @Injectable({ providedIn: 'root' })
 export class ProductService {
   private http = inject(HttpClient);
+  private apiService = inject(ApiService);
 
   // Gateway Url
   //private baseUrl = 'http://localhost:8010/Catalog';
-  private baseUrl = 'http://127.0.0.1:8010/Catalog';
+  private baseUrl = `${this.apiService.apiUrl}Catalog`;
 
   getAllProducts(
     page: number,

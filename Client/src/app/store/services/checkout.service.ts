@@ -2,11 +2,14 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { CheckoutPayload } from "../models/CheckoutPayload";
 import { Observable } from "rxjs";
+import {ApiService} from '../../core/services/api.service';
 
 @Injectable({providedIn: 'root'})
 export class CheckoutService {
   private http = inject(HttpClient);
-  private baseUrl = 'http://localhost:8010/Basket';
+  private apiService = inject(ApiService);
+  // private baseUrl = 'http://localhost:8010/Basket';
+  private baseUrl = `${this.apiService.apiUrl}Basket`;
   // private baseUrl = 'http://48.195.184.227:8010/Basket';
 
   checkout(payload: CheckoutPayload): Observable<any> {

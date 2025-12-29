@@ -5,12 +5,14 @@ import { Observable } from "rxjs";
 import { LoginDto } from "./models/LoginDto";
 import {JwtPayload} from './models/JwtPayload';
 import {jwtDecode} from 'jwt-decode';
+import {ApiService} from '../core/services/api.service';
 
 @Injectable({providedIn:'root'})
 export class AuthService {
   private http = inject(HttpClient);
+  private apiService = inject(ApiService);
   //private baseUrl = 'http://localhost:8010/identity/api/auth';
-  private baseUrl = 'http://localhost:8010/identity/api/auth';
+  private baseUrl = `${this.apiService.apiUrl}identity/api/auth`;
 
   //store token in a signal
   userToken = signal<string | null>(localStorage.getItem('token'));
