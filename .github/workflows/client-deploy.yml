@@ -1,11 +1,10 @@
 name: Client CI/CD Pipeline
 
 on:
-  workflow_dispatch:
   push:
-    branches: [main]  # ONLY feature branch pushes
+    branches: [feature]  # ONLY feature branch pushes
   pull_request:
-    branches: [main]  # PRs targeting feature branch
+    branches: [feature]  # PRs targeting feature branch
 
 env:
   CLIENT_DIR: Client
@@ -41,7 +40,7 @@ jobs:
   deploy-client:
     needs: test-build
     runs-on: ubuntu-latest
-    # if: github.event_name == 'push' && github.ref == 'refs/heads/client'  # Deploy only on push to client
+    if: github.event_name == 'push' && github.ref == 'refs/heads/feature'  # Deploy only on push to feature
     
     steps:
       - uses: actions/checkout@v4
