@@ -4,6 +4,7 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { Order } from '../models/Order';
 import { AuthService } from '../../auth/auth.service';
+import {ApiService} from '../../core/services/api.service';
 
 @Component({
   selector: 'app-orders',
@@ -15,14 +16,16 @@ import { AuthService } from '../../auth/auth.service';
 export class Orders implements OnInit {
   private http = inject(HttpClient);
   private authService = inject(AuthService);
+  private apiService = inject(ApiService);
 
   orders = signal<Order[]>([]);
   loading = signal<boolean>(true);
 
   ngOnInit(): void {
     const userName = 'saurabh.mishra'; //TODO: this.authService.getUserName();
+    const url = `${this.apiService.apiUrl}Order/${userName}`;
     // this.http.get<Order[]>(`http://localhost:8010/Order/${userName}`).subscribe({
-    this.http.get<Order[]>(`http://localhost:8010/Order/${userName}`).subscribe({
+    this.http.get<Order[]>(url).subscribe({
       next: (res) => {
         const sorted = res.sort((a, b) => b.id - a.id);
         this.orders.set(sorted);

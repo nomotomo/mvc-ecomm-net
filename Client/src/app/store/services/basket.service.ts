@@ -2,12 +2,14 @@ import { HttpClient } from "@angular/common/http";
 import { inject, Injectable, signal } from "@angular/core";
 import { Basket } from "../models/Basket";
 import { Observable } from "rxjs";
+import {ApiService} from '../../core/services/api.service';
 
 @Injectable({providedIn: 'root'})
 export class BasketService {
   private http = inject(HttpClient);
+  private  apiService = inject(ApiService);
   // baseUrl = 'http://localhost:8010/Basket';
-  baseUrl = 'http://localhost:8010/Basket';
+  baseUrl = `${this.apiService.apiUrl}Basket`;
 
   //initialize from local storage
 
