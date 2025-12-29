@@ -1,0 +1,52 @@
+services:
+  catalogdb:
+    image: mongo
+  basketdb:
+    image: redis:alpine
+  discountdb:
+    image: postgres
+  orderdb:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+  identitydb:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+  portainer:
+    image: portainer/portainer-ce
+  pgadmin:
+    image: dpage/pgadmin4
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.14.3
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.14.3
+  
+  # ECR Images - Remove ALL build: sections
+  catalog.api:
+    image: ${ECR_REGISTRY}/mvc-ecomm-net/catalog.api:${TAG:-latest}
+  
+  basket.api:
+    image: ${ECR_REGISTRY}/mvc-ecomm-net/basket.api:${TAG:-latest}
+  
+  discount.api:
+    image: ${ECR_REGISTRY}/mvc-ecomm-net/discount.api:${TAG:-latest}
+  
+  ordering.api:
+    image: ${ECR_REGISTRY}/mvc-ecomm-net/ordering.api:${TAG:-latest}
+  
+  payment.api:
+    image: ${ECR_REGISTRY}/mvc-ecomm-net/payment.api:${TAG:-latest}
+  
+  identity.api:
+    image: ${ECR_REGISTRY}/mvc-ecomm-net/identity.api:${TAG:-latest}
+
+  ocelot.apigateway:
+    image: ${ECR_REGISTRY}/mvc-ecomm-net/ocelot.apigateway:${TAG:-latest}
+
+volumes:
+  mongodata:
+  portainerdata:
+  postgresdata:
+  pgadmindata:
+  orderdbdata:
+  identitydbdata:
+  elasticsearchdata:
