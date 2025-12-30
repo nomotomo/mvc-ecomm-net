@@ -92,7 +92,7 @@ export class Store implements OnInit {
     };
 
     this.basketService.getBasket('saurabh.mishra').subscribe((current) => {
-      let items = [...current.items];
+      let items = current && current.items ? [...current.items] : [];
       const existing = items.find((i) => i.productId === p.id);
       if (existing) {
         existing.quantity += 1;

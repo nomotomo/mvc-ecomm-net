@@ -44,7 +44,7 @@ export class ProductDetails implements OnInit {
 
     // First fetch existing basket
     this.basketService.getBasket('saurabh.mishra').subscribe((current) => {
-      let items = current ? [...current.items] : [];
+      let items = current && current.items ? [...current.items] : [];
       //if product already exists, then increment quantity
       const existing = items.find((i) => i.productId === p.id);
       if (existing) {
