@@ -1,4 +1,10 @@
+Branch Rule - PR to main branch merging is blocked, only bypass users are allowed, create a PR by dev branch and we can include the change to main if we want to deploy to prod
+
 # E-Commerce Microservices Platform
+
+## Branching and Release Policy
+
+The main branch is protected so that pull requests targeting main cannot be merged by regular users. Only users with bypass permissions may merge changes into main. All production changes must first be merged into the dev branch and, when ready for deployment, promoted to main via a pull request from dev, which can then be approved and merged by an authorized reviewer.
 
 A cloud-native, microservices-based e-commerce platform built with **.NET 8**, **ASP.NET Core**, **Angular**, and deployed on **Kubernetes**. The system demonstrates modern architectural patterns including **Clean Architecture**, **CQRS**, **Event-Driven Architecture**, and **API Gateway** patterns.
 
