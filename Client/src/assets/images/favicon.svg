@@ -1,0 +1,58 @@
+<!-- src/assets/favicon.svg -->
+<svg width="192" height="192" viewBox="0 0 192 192" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Darker medium green background circle -->
+  <circle cx="96" cy="96" r="96" fill="url(#bgGradient)"/>
+
+  <!-- P-shaped cart -->
+  <g transform="translate(42,48)">
+    <!-- Vertical stem of P and cart frame -->
+    <path d="M32 20V88"
+          stroke="white" stroke-width="8" stroke-linecap="round"/>
+
+    <!-- Bowl of P doubling as cart basket -->
+    <path d="M32 24H80C92 24 102 34 102 46C102 58 92 68 80 68H48"
+          fill="none"
+          stroke="white" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <!-- Slight slant for cart front -->
+    <path d="M32 68L22 52H10"
+          fill="none"
+          stroke="white" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <!-- Handle hint continuing P upwards -->
+    <path d="M32 20C32 12 38 6 46 6"
+          fill="none"
+          stroke="white" stroke-width="5" stroke-linecap="round"/>
+
+    <!-- Wheels -->
+    <circle cx="40" cy="96" r="8" fill="white"/>
+    <circle cx="84" cy="96" r="8" fill="white"/>
+  </g>
+
+  <!-- Golden Pollux star accent -->
+  <path d="
+    M138 34
+    L143 46
+    L156 46
+    L145 54
+    L149 66
+    L138 58
+    L127 66
+    L131 54
+    L120 46
+    L133 46
+    Z"
+        fill="#F9C846" stroke="#FDF3C0" stroke-width="2" stroke-linejoin="round"/>
+
+  <!-- Gradients -->
+  <defs>
+    <!-- Slightly darker, richer green gradient -->
+    <radialGradient id="bgGradient" cx="0" cy="0" r="1"
+                    gradientUnits="userSpaceOnUse"
+                    gradientTransform="translate(72 56) rotate(45) scale(150)">
+      <stop offset="0%" stop-color="#7FE8A7"/>
+      <stop offset="45%" stop-color="#34B96A"/>
+      <stop offset="100%" stop-color="#0E6B3A"/>
+    </radialGradient>
+  </defs>
+</svg>
